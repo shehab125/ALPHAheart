@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialties | Medical App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .gradient-header {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff;
+            border-radius: 0 0 32px 32px;
+            padding: 2rem 1rem 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+        .icon-back {
+            position: absolute;
+            left: 1rem;
+            top: 2rem;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+        }
+        .specialties-container {
+            max-width: 500px;
+            margin: -40px auto 0 auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            padding: 2rem 1.2rem 1.5rem 1.2rem;
+        }
+        .search-bar {
+            background: #eaf8fd;
+            border-radius: 12px;
+            border: none;
+            padding: 0.7rem 1rem;
+            width: 100%;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+        }
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .filter-btn {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 0.3rem 1.1rem;
+            font-size: 1rem;
+        }
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.1rem;
+        }
+        .specialty-card {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff;
+            border-radius: 18px;
+            padding: 1.2rem 0.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .specialty-card img {
+            width: 36px;
+            height: 36px;
+        }
+        @media (max-width: 600px) {
+            .specialties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-header">
+        <img src="images/back-icon.svg" alt="Back" class="icon-back">
+        <span class="logo">ALPHAheart</span>
+        <h2 class="mb-0">Specialties</h2>
+        <div style="font-size:1rem;font-weight:400;">Find Your Doctor</div>
+    </div>
+    <div class="specialties-container">
+        <input type="text" class="search-bar" placeholder="Search...">
+        <div class="filter-row">
+            <span style="font-size:1rem;font-weight:600;">Sort By</span>
+            <button class="filter-btn">A → Z</button>
+            <button class="filter-btn">Filter</button>
+            <span style="font-size:1rem;">Doctors</span>
+        </div>
+        <div class="specialties-grid">
+            <div class="specialty-card">
+                <img src="images/cardiology-icon.svg" alt="Cardiology">
+                <div>Cardiology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/dermatology-icon.svg" alt="Dermatology">
+                <div>Dermatology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/general-icon.svg" alt="General Medicine">
+                <div>General Medicine</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/gynecology-icon.svg" alt="Gynecology">
+                <div>Gynecology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/odontology-icon.svg" alt="Odontology">
+                <div>Odontology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/oncology-icon.svg" alt="Oncology">
+                <div>Oncology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/ophtamology-icon.svg" alt="Ophtamology">
+                <div>Ophtamology</div>
+            </div>
+            <div class="specialty-card">
+                <img src="images/orthopedics-icon.svg" alt="Orthopedics">
+                <div>Orthopedics</div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <!-- Custom Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/routing.js"></script>
+</body>
+</html> 
