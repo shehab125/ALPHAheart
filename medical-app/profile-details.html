@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: #f8fafd;
+            font-family: 'Poppins', sans-serif;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #1ec6d9 0%, #24e0c4 100%);
+            padding: 40px 0 30px 0;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            color: #fff;
+        }
+        .profile-header img.profile-pic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            margin-bottom: 10px;
+        }
+        .profile-header .edit-pic {
+            position: relative;
+            top: -40px;
+            left: 40px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .profile-form {
+            margin: 30px auto;
+            max-width: 350px;
+            background: #fff;
+            border-radius: 18px;
+            padding: 30px 20px 20px 20px;
+            box-shadow: 0 2px 16px rgba(30,198,217,0.07);
+        }
+        .profile-form label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .profile-form .ar-label {
+            font-size: 13px;
+            color: #1ec6d9;
+            margin-bottom: 2px;
+        }
+        .profile-form input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #eaf7fb;
+            font-size: 16px;
+        }
+        .profile-form input:focus {
+            outline: 2px solid #1ec6d9;
+        }
+        .profile-form .update-btn {
+            width: 100%;
+            padding: 13px 0;
+            background: linear-gradient(90deg, #1ec6d9 0%, #24e0c4 100%);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .profile-form .update-btn:hover {
+            background: linear-gradient(90deg, #24e0c4 0%, #1ec6d9 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-header">
+        <a href="profile.html" style="position:absolute;left:20px;top:30px;color:#fff;font-size:28px;text-decoration:none;">&#8592;</a>
+        <h2>Profile Details<br><span style="font-size:15px;font-weight:400;">تفاصيل البروفايل</span></h2>
+        <div style="position:relative;display:inline-block;">
+            <img src="images/user-default.png" alt="Profile Picture" class="profile-pic" id="profilePic">
+            <label for="uploadPic" class="edit-pic" title="Change Picture / تغيير الصورة">
+                <img src="images/edit-icon.png" alt="Edit" width="24">
+            </label>
+            <input type="file" id="uploadPic" style="display:none;">
+        </div>
+    </div>
+    <form class="profile-form">
+        <label for="fullName">Full Name <span class="ar-label">الاسم الكامل</span></label>
+        <input type="text" id="fullName" name="fullName" value="Jane Doe">
+
+        <label for="phone">Phone Number <span class="ar-label">رقم الهاتف</span></label>
+        <input type="tel" id="phone" name="phone" value="+123 567 89000">
+
+        <label for="email">Email <span class="ar-label">البريد الإلكتروني</span></label>
+        <input type="email" id="email" name="email" value="janedoe@example.com">
+
+        <label for="dob">Date Of Birth <span class="ar-label">تاريخ الميلاد</span></label>
+        <input type="text" id="dob" name="dob" placeholder="DD / MM /YYYY">
+
+        <button type="submit" class="update-btn">Update Profile<br><span style='font-size:13px;'>تحديث البروفايل</span></button>
+    </form>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        // Redirect to login if not authenticated
+        // إعادة التوجيه لصفحة تسجيل الدخول إذا لم يكن المستخدم مسجلاً الدخول
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                window.location.href = "login.html";
+            }
+        });
+        // Fetch user data from Firebase Authentication and Firestore
+        // جلب بيانات المستخدم من فايربيز أوث وفايرستور
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('fullName').value = user.displayName || '';
+                document.getElementById('phone').value = user.phoneNumber || '';
+                // Fetch extra data from Firestore
+                var uid = user.uid;
+                firebase.firestore().collection('users').doc(uid).get().then(function(doc) {
+                    if (doc.exists) {
+                        var data = doc.data();
+                        if (data.phone) document.getElementById('phone').value = data.phone;
+                        if (data.dob) document.getElementById('dob').value = data.dob;
+                    }
+                });
+                // Fetch and display profile picture
+                // جلب وعرض صورة البروفايل
+                var uid = user.uid;
+                firebase.firestore().collection('users').doc(uid).get().then(function(doc) {
+                    let photoURL = '';
+                    if (doc.exists && doc.data().photoURL) {
+                        photoURL = doc.data().photoURL;
+                    } else if (user.photoURL) {
+                        photoURL = user.photoURL;
+                    } else {
+                        photoURL = 'images/user-default.png';
+                    }
+                    // Update all possible profile image elements
+                    document.querySelectorAll('.profile-pic, .profile-img').forEach(function(img) {
+                        img.src = photoURL;
+                    });
+                });
+            }
+        });
+        // Optional: Preview uploaded profile picture
+        document.getElementById('uploadPic').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('profilePic').src = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        document.querySelector('.profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var user = firebase.auth().currentUser;
+            if (!user) return;
+            var fullName = document.getElementById('fullName').value.trim();
+            var phone = document.getElementById('phone').value.trim();
+            var dob = document.getElementById('dob').value.trim();
+            var file = document.getElementById('uploadPic').files[0];
+            var updates = { name: fullName, phone: phone, dob: dob };
+            var promises = [];
+            // Update Authentication profile
+            promises.push(user.updateProfile({ displayName: fullName }));
+            // Always get current photoURL from Firestore if no new image
+            var getPhotoURLPromise = firebase.firestore().collection('users').doc(user.uid).get().then(function(doc) {
+                if (!file) {
+                    if (doc.exists && doc.data().photoURL) {
+                        updates.photoURL = doc.data().photoURL;
+                    } else if (user.photoURL) {
+                        updates.photoURL = user.photoURL;
+                    }
+                }
+            });
+            promises.push(getPhotoURLPromise);
+            // If new image selected, upload to Storage
+            if (file) {
+                var storageRef = firebase.storage().ref();
+                var userImageRef = storageRef.child('profileImages/' + user.uid + '.jpg');
+                promises.push(
+                    userImageRef.put(file).then(function(snapshot) {
+                        return userImageRef.getDownloadURL();
+                    }).then(function(url) {
+                        updates.photoURL = url;
+                        return user.updateProfile({ photoURL: url });
+                    })
+                );
+            }
+            Promise.all(promises).then(function() {
+                // Update Firestore
+                return firebase.firestore().collection('users').doc(user.uid).set(updates, { merge: true });
+            }).then(function() {
+                alert('Profile updated successfully!\nتم تحديث البروفايل بنجاح');
+                location.reload();
+            }).catch(function(error) {
+                alert('Error updating profile: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html> 

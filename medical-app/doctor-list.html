@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f8fafd;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            padding: 36px 0 24px 0;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 6px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            color: #fff;
+            font-size: 28px;
+            text-decoration: none;
+        }
+        .search-bar {
+            margin: 18px auto 0 auto;
+            max-width: 340px;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+            padding: 8px 18px;
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            background: transparent;
+            margin-left: 8px;
+        }
+        .specialty-carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 18px 0 0 0;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+        .specialty-carousel::-webkit-scrollbar { display: none; }
+        .specialty-btn {
+            background: #fff;
+            border-radius: 15px;
+            border: none;
+            color: #00bcd4;
+            font-size: 1.3rem;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .specialty-btn.selected, .specialty-btn:hover {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff;
+        }
+        .see-all-link {
+            color: #00bcd4;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-left: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .sort-filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 340px;
+            margin: 18px auto 0 auto;
+            font-size: 1rem;
+            color: #1ec6d9;
+        }
+        .sort-btn, .filter-btn {
+            background: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 6px 18px;
+            font-weight: 600;
+            color: #1ec6d9;
+            margin-right: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+        }
+        .top-rating-link {
+            color: #00bcd4;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-left: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .doctors-list {
+            max-width: 380px;
+            margin: 0 auto 80px auto;
+            padding: 0;
+        }
+        .doctor-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid #eaf7fb;
+        }
+        .doctor-list-item:last-child {
+            border-bottom: none;
+        }
+        .doctor-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+            border: 3px solid #eaf7fb;
+        }
+        .doctor-info {
+            flex: 1;
+        }
+        .doctor-name {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #00bcd4;
+        }
+        .doctor-specialty {
+            font-size: 0.98rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .doctor-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .doctor-actions button, .doctor-actions i {
+            background: none;
+            border: none;
+            color: #00bcd4;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .info-btn {
+            border: 1.5px solid #00bcd4;
+            color: #00bcd4;
+            background: #fff;
+            border-radius: 20px;
+            padding: 2px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: 8px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .info-btn:hover {
+            background: #00bcd4;
+            color: #fff;
+        }
+        .bottom-nav {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -2px 8px rgba(30,198,217,0.07);
+            z-index: 100;
+        }
+        .bottom-nav .nav-item {
+            color: #1ec6d9;
+            text-align: center;
+            font-size: 1.3rem;
+            flex: 1;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-nav .nav-item.active {
+            color: #00bcd4;
+        }
+        @media (max-width: 500px) {
+            .header h2 { font-size: 1.3rem; }
+            .doctors-list, .search-bar, .specialty-carousel, .sort-filter-row { max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="dashboard.html" class="back-btn">&#8592;</a>
+        <h2>Doctors</h2>
+        <p>Find Your Doctor</p>
+    </div>
+    <a href="rating.html" class="top-rating-link" style="display: block; text-align: center; margin: 10px 0; font-size: 1.2rem; color: #00bcd4; text-decoration: underline;">Top Rating</a>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search...">
+    </div>
+    <div class="specialty-carousel" id="specialtyCarousel">
+        <!-- Specialty buttons will be injected here -->
+        <span class="see-all-link" onclick="window.location.href='specialties.html'">See all</span>
+    </div>
+    <div class="sort-filter-row">
+        <div class="sort-filter">
+            <a href="#" class="sort-btn">Most Viewed</a>
+            <a href="#" class="sort-btn">Most Reviewed</a>
+        </div>
+    </div>
+    <div class="doctors-list" id="doctorsList">
+        <!-- Doctor list items will be injected here -->
+    </div>
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item active"><i class="fas fa-home"></i><span style="display:block;font-size:11px;">Home</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-calendar-alt"></i><span style="display:block;font-size:11px;">Appointments</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-comment-alt"></i><span style="display:block;font-size:11px;">Messages</span></a>
+        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span style="display:block;font-size:11px;">Profile</span></a>
+    </nav>
+    <script>
+        // Specialties data
+        const specialties = [
+            { name: 'Gynecology', icon: 'fa-venus' },
+            { name: 'General Medicine', icon: 'fa-user-md' },
+            { name: 'Otolaryngology', icon: 'fa-ear-listen' },
+            { name: 'Ophthalmology', icon: 'fa-eye' },
+            { name: 'Cardiology', icon: 'fa-heartbeat' },
+            { name: 'Dermatology', icon: 'fa-allergies' },
+            { name: 'Odontology', icon: 'fa-tooth' },
+            { name: 'Oncology', icon: 'fa-dna' }
+        ];
+        // Sample doctors data
+        const doctors = [
+            { name: 'Dr. Ava Williams, M.D.', specialty: 'Maternal-Fetal Medicine', img: 'images/doctor1.jpg' },
+            { name: 'Dr. Benjamin Davis', specialty: 'Retinal Specialist', img: 'images/doctor2.jpg' },
+            { name: 'Dr. Chloe Green, M.D.', specialty: 'Obstetrics and Gynecology (OB/GYN)', img: 'images/doctor3.jpg' },
+            { name: 'Dr. Christopher Evans', specialty: 'Spine Surgeon', img: 'images/doctor4.jpg' }
+        ];
+        // Render specialties carousel
+        const specialtyCarousel = document.getElementById('specialtyCarousel');
+        specialties.forEach((s, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'specialty-btn';
+            btn.innerHTML = `<i class="fas ${s.icon}"></i>`;
+            btn.title = s.name;
+            btn.onclick = () => {
+                // Filter doctors by specialty
+                renderDoctors(s.name);
+                document.querySelectorAll('.specialty-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            };
+            if (idx === 0) btn.classList.add('selected');
+            specialtyCarousel.insertBefore(btn, specialtyCarousel.querySelector('.see-all-link'));
+        });
+        // Render doctors
+        function renderDoctors(filterSpecialty = '', search = '') {
+            const list = document.getElementById('doctorsList');
+            list.innerHTML = '';
+            let filtered = doctors;
+            if (filterSpecialty) filtered = filtered.filter(d => d.specialty.includes(filterSpecialty));
+            if (search) filtered = filtered.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
+            filtered.forEach(doc => {
+                const item = document.createElement('div');
+                item.className = 'doctor-list-item';
+                item.innerHTML = `
+                    <img src="${doc.img}" class="doctor-img" alt="${doc.name}">
+                    <div class="doctor-info">
+                        <div class="doctor-name">${doc.name}</div>
+                        <div class="doctor-specialty">${doc.specialty}</div>
+                        <div class="doctor-actions">
+                            <button class="info-btn" onclick="window.location.href='doctor-details.html'">Info</button>
+                            <i class="fas fa-calendar-alt" title="Book"></i>
+                            <i class="fas fa-question-circle" title="Help"></i>
+                            <i class="far fa-heart" title="Favorite"></i>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+        renderDoctors(specialties[0].name);
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const selected = document.querySelector('.specialty-btn.selected');
+            const specialty = selected ? specialties.find(s => s.icon === selected.querySelector('i').classList[1].replace('fa-', ''))?.name : '';
+            renderDoctors(specialty, this.value);
+        });
+    </script>
+</body>
+</html> 

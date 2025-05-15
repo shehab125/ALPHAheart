@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #f8fafd; font-family: 'Poppins', sans-serif; }
+        .header { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); padding: 32px 0 18px 0; border-radius: 0 0 30px 30px; color: #fff; text-align: center; position: relative; }
+        .header h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+        .back-btn { position: absolute; left: 20px; top: 30px; color: #fff; font-size: 28px; text-decoration: none; }
+        .payment-section { max-width: 360px; margin: 32px auto 0 auto; background: none; padding: 0 8px; }
+        .payment-list { display: flex; flex-direction: column; gap: 18px; }
+        .payment-card { display: flex; align-items: center; background: #eaf7fb; border-radius: 18px; padding: 16px 18px; color: #00bcd4; font-size: 1.08rem; font-weight: 600; text-decoration: none; box-shadow: 0 2px 8px rgba(30,198,217,0.07); transition: background 0.15s, color 0.15s; border: none; margin-bottom: 0; }
+        .payment-card.selected, .payment-card:hover { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: #fff; }
+        .payment-card i { font-size: 1.5rem; margin-right: 16px; min-width: 32px; text-align: center; }
+        .payment-card .arrow { margin-left: auto; color: inherit; font-size: 1.2rem; }
+        .add-card { background: #fff; color: #00bcd4; border: 1.5px solid #00bcd4; }
+        .add-card:hover { background: #00bcd4; color: #fff; }
+        @media (max-width: 500px) { .header h2 { font-size: 1.3rem; } .payment-section { max-width: 98vw; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="settings.html" class="back-btn">&#8592;</a>
+        <h2>Payment Method</h2>
+    </div>
+    <div class="payment-section">
+        <div class="payment-list">
+            <a href="#" class="payment-card selected"><i class="fas fa-credit-card"></i> Credit Card <span class="arrow"><i class="fas fa-chevron-right"></i></span></a>
+            <a href="#" class="payment-card"><i class="fab fa-cc-paypal"></i> PayPal <span class="arrow"><i class="fas fa-chevron-right"></i></span></a>
+            <a href="#" class="payment-card add-card"><i class="fas fa-plus-circle"></i> Add New Card <span class="arrow"><i class="fas fa-chevron-right"></i></span></a>
+        </div>
+    </div>
+</body>
+</html> 

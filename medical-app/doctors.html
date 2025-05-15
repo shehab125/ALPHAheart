@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f8fafd;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #1ec6d9 0%, #24e0c4 100%);
+            padding: 36px 0 24px 0;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 6px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            color: #fff;
+            font-size: 28px;
+            text-decoration: none;
+        }
+        .search-bar {
+            margin: 18px auto 0 auto;
+            max-width: 340px;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+            padding: 8px 18px;
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            background: transparent;
+            margin-left: 8px;
+        }
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            max-width: 340px;
+            margin: 24px auto 80px auto;
+        }
+        .doctor-card {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            border-radius: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 18px 16px;
+            box-shadow: 0 2px 16px rgba(30,198,217,0.07);
+            transition: transform 0.12s, box-shadow 0.12s;
+            cursor: pointer;
+        }
+        .doctor-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 6px 24px rgba(30,198,217,0.13);
+        }
+        .doctor-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+            margin-right: 18px;
+            border: 3px solid #eaf7fb;
+        }
+        .doctor-info {
+            flex: 1;
+        }
+        .doctor-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .doctor-specialty {
+            font-size: 0.98rem;
+            opacity: 0.93;
+        }
+        .doctor-icon {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-left: 10px;
+        }
+        .bottom-nav {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -2px 8px rgba(30,198,217,0.07);
+            z-index: 100;
+        }
+        .bottom-nav .nav-item {
+            color: #1ec6d9;
+            text-align: center;
+            font-size: 1.3rem;
+            flex: 1;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-nav .nav-item.active {
+            color: #00bcd4;
+        }
+        @media (max-width: 500px) {
+            .header h2 { font-size: 1.3rem; }
+            .doctors-grid { max-width: 98vw; }
+            .search-bar { max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="specialties.html" class="back-btn">&#8592;</a>
+        <h2 id="specialtyTitle">Doctors</h2>
+        <p id="specialtyDesc">Find the best doctors for your needs</p>
+    </div>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search doctor...">
+    </div>
+    <div class="doctors-grid" id="doctorsGrid">
+        <!-- Doctor cards will be injected here -->
+    </div>
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span style="display:block;font-size:11px;">Home</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-calendar-alt"></i><span style="display:block;font-size:11px;">Appointments</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-comment-alt"></i><span style="display:block;font-size:11px;">Messages</span></a>
+        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span style="display:block;font-size:11px;">Profile</span></a>
+    </nav>
+    <script>
+        // Specialty icons mapping (same as specialties page)
+        const specialtyIcons = {
+            'Cardiology': 'fa-heartbeat',
+            'Dermatology': 'fa-allergies',
+            'General Medicine': 'fa-user-md',
+            'Gynecology': 'fa-venus',
+            'Odontology': 'fa-tooth',
+            'Oncology': 'fa-dna',
+            'Ophthalmology': 'fa-eye',
+            'Orthopedics': 'fa-bone'
+        };
+        // Sample doctors data by specialty
+        const doctorsData = {
+            'Cardiology': [
+                { name: 'Dr. John Smith', img: 'images/doctor1.jpg' },
+                { name: 'Dr. Emily Carter', img: 'images/doctor2.jpg' }
+            ],
+            'Dermatology': [
+                { name: 'Dr. Sarah Lee', img: 'images/doctor3.jpg' },
+                { name: 'Dr. Michael Brown', img: 'images/doctor4.jpg' }
+            ],
+            'General Medicine': [
+                { name: 'Dr. Olivia Wilson', img: 'images/doctor5.jpg' },
+                { name: 'Dr. David Miller', img: 'images/doctor6.jpg' }
+            ],
+            'Gynecology': [
+                { name: 'Dr. Sophia Martinez', img: 'images/doctor7.jpg' },
+                { name: 'Dr. Laura Kim', img: 'images/doctor8.jpg' }
+            ],
+            'Odontology': [
+                { name: 'Dr. James Anderson', img: 'images/doctor9.jpg' },
+                { name: 'Dr. Linda Clark', img: 'images/doctor10.jpg' }
+            ],
+            'Oncology': [
+                { name: 'Dr. William Harris', img: 'images/doctor11.jpg' },
+                { name: 'Dr. Patricia Lewis', img: 'images/doctor12.jpg' }
+            ],
+            'Ophthalmology': [
+                { name: 'Dr. Robert Walker', img: 'images/doctor13.jpg' },
+                { name: 'Dr. Barbara Hall', img: 'images/doctor14.jpg' }
+            ],
+            'Orthopedics': [
+                { name: 'Dr. Charles Young', img: 'images/doctor15.jpg' },
+                { name: 'Dr. Jennifer King', img: 'images/doctor16.jpg' }
+            ]
+        };
+        // Get specialty from URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const specialty = getQueryParam('specialty') || 'All';
+        document.getElementById('specialtyTitle').textContent = specialty + ' Doctors';
+        document.getElementById('specialtyDesc').textContent = `Find the best ${specialty.toLowerCase()} doctors for your needs`;
+        // Render doctors
+        function renderDoctors(filter = '') {
+            const grid = document.getElementById('doctorsGrid');
+            grid.innerHTML = '';
+            let doctors = doctorsData[specialty] || [];
+            doctors = doctors.filter(d => d.name.toLowerCase().includes(filter.toLowerCase()));
+            if (doctors.length === 0) {
+                grid.innerHTML = '<div style="color:#1ec6d9;text-align:center;padding:30px 0;">No doctors found.</div>';
+                return;
+            }
+            doctors.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = 'doctor-card';
+                card.innerHTML = `
+                    <img src="${doc.img}" class="doctor-img" alt="${doc.name}">
+                    <div class="doctor-info">
+                        <div class="doctor-name">
+                            <i class="fas ${specialtyIcons[specialty] || ''}" style="margin-right:8px;"></i>${doc.name}
+                        </div>
+                        <div class="doctor-specialty">${specialty}</div>
+                    </div>
+                    <span class="doctor-icon"><i class="fas fa-chevron-right"></i></span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        renderDoctors();
+        document.getElementById('searchInput').addEventListener('input', function() {
+            renderDoctors(this.value);
+        });
+    </script>
+</body>
+</html> 

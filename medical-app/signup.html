@@ -129,6 +129,10 @@
                     <label for="dob" class="form-label">Date Of Birth</label>
                     <input type="text" class="form-control" id="dob" placeholder="DD / MM /YYY">
                 </div>
+                <div class="mb-3">
+                    <label for="profileImage" class="form-label">Profile Image</label>
+                    <input type="file" class="form-control" id="profileImage" accept="image/*">
+                </div>
                 <div class="terms-text mb-2">
                     By continuing, you agree to <a href="#" class="terms-link">Terms of Use</a> and <a href="#" class="terms-link">Privacy Policy</a>.
                 </div>
@@ -151,6 +155,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <!-- Custom Scripts -->
     <script src="js/firebase-config.js"></script>
     <script src="js/routing.js"></script>
@@ -160,13 +165,18 @@
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const fullnameInput = document.getElementById('fullname');
-        // Add more fields if needed
+        const phoneInput = document.getElementById('mobile');
+        const dobInput = document.getElementById('dob');
+        const profileImageInput = document.getElementById('profileImage');
 
         signupForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
             const fullname = fullnameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const dob = dobInput.value.trim();
+            const file = profileImageInput.files[0];
             if (!email || !password || !fullname) {
                 alert('Please fill in all required fields');
                 return;
@@ -175,10 +185,39 @@
             const originalText = signupButton.textContent;
             signupButton.textContent = 'Signing up...';
             signupButton.disabled = true;
+            let createdUser = null;
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Optionally update profile with full name
-                    return userCredential.user.updateProfile({ displayName: fullname });
+                    createdUser = userCredential.user;
+                    // Update profile with full name
+                    return createdUser.updateProfile({ displayName: fullname });
+                })
+                .then(() => {
+                    // Prepare Firestore user data
+                    const userData = {
+                        name: fullname,
+                        email: email,
+                        phone: phone,
+                        dob: dob
+                    };
+                    // If image selected, upload to Storage
+                    if (file) {
+                        const storageRef = firebase.storage().ref();
+                        const userImageRef = storageRef.child('profileImages/' + createdUser.uid + '.jpg');
+                        return userImageRef.put(file).then(function(snapshot) {
+                            return userImageRef.getDownloadURL();
+                        }).then(function(url) {
+                            userData.photoURL = url;
+                            // Update user photoURL in Authentication
+                            return createdUser.updateProfile({ photoURL: url }).then(() => url);
+                        }).then(function(url) {
+                            // Save all data in Firestore
+                            return firebase.firestore().collection('users').doc(createdUser.uid).set(userData, { merge: true });
+                        });
+                    } else {
+                        // No image, just save data
+                        return firebase.firestore().collection('users').doc(createdUser.uid).set(userData, { merge: true });
+                    }
                 })
                 .then(() => {
                     alert('Sign up successful!');
