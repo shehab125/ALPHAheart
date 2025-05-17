@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f8fafd;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            padding: 36px 0 24px 0;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            color: #fff;
+            font-size: 28px;
+            text-decoration: none;
+        }
+        .sort-filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 340px;
+            margin: 18px auto 0 auto;
+            font-size: 1rem;
+            color: #1ec6d9;
+        }
+        .sort-btn, .filter-btn {
+            background: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 6px 18px;
+            font-weight: 600;
+            color: #1ec6d9;
+            margin-right: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+        }
+        .doctors-list {
+            max-width: 380px;
+            margin: 0 auto 80px auto;
+            padding: 0;
+        }
+        .doctor-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid #eaf7fb;
+        }
+        .doctor-list-item:last-child {
+            border-bottom: none;
+        }
+        .doctor-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+            border: 3px solid #eaf7fb;
+        }
+        .doctor-info {
+            flex: 1;
+        }
+        .doctor-title {
+            font-size: 0.98rem;
+            color: #00bcd4;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .doctor-name {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #00bcd4;
+        }
+        .doctor-specialty {
+            font-size: 0.98rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .doctor-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .doctor-actions button, .doctor-actions i {
+            background: none;
+            border: none;
+            color: #00bcd4;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .info-btn {
+            border: 1.5px solid #00bcd4;
+            color: #00bcd4;
+            background: #fff;
+            border-radius: 20px;
+            padding: 2px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: 8px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .info-btn:hover {
+            background: #00bcd4;
+            color: #fff;
+        }
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #eaf7fb;
+            color: #00bcd4;
+            border-radius: 16px;
+            padding: 4px 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-left: 8px;
+            gap: 5px;
+        }
+        .bottom-nav {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -2px 8px rgba(30,198,217,0.07);
+            z-index: 100;
+        }
+        .bottom-nav .nav-item {
+            color: #1ec6d9;
+            text-align: center;
+            font-size: 1.3rem;
+            flex: 1;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-nav .nav-item.active {
+            color: #00bcd4;
+        }
+        @media (max-width: 500px) {
+            .header h2 { font-size: 1.3rem; }
+            .doctors-list, .sort-filter-row { max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="doctor-list.html" class="back-btn">&#8592;</a>
+        <h2>Rating</h2>
+    </div>
+    <div class="sort-filter-row">
+        <div>
+            Sort By <button class="sort-btn">A-Z</button>
+            <button class="filter-btn">Filter</button>
+        </div>
+    </div>
+    <div class="doctors-list" id="doctorsList">
+        <!-- Doctor list items will be injected here -->
+    </div>
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item active"><i class="fas fa-home"></i><span style="display:block;font-size:11px;">Home</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-calendar-alt"></i><span style="display:block;font-size:11px;">Appointments</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-comment-alt"></i><span style="display:block;font-size:11px;">Messages</span></a>
+        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span style="display:block;font-size:11px;">Profile</span></a>
+    </nav>
+    <script>
+        // Sample doctors data
+        const doctors = [
+            { name: 'Dr. Emma Hall, M.D.', title: 'Professional Doctor', specialty: 'General Doctor', img: 'images/doctor1.jpg', rating: 5 },
+            { name: 'Dr. Jacob Lopez, M.D.', title: 'Professional Doctor', specialty: 'Surgical Dermatology', img: 'images/doctor5.jpg', rating: 5 },
+            { name: 'Dr. Lucy Perez, Ph.D.', title: 'Professional Doctor', specialty: 'Clinical Dermatology', img: 'images/doctor6.jpg', rating: 5 },
+            { name: 'Dr. Quinn Cooper, M.D.', title: 'Professional Doctor', specialty: 'Menopausal and Geriatric Gynecology', img: 'images/doctor7.jpg', rating: 5 }
+        ];
+        // Render doctors
+        function renderDoctors() {
+            const list = document.getElementById('doctorsList');
+            list.innerHTML = '';
+            doctors.forEach(doc => {
+                const item = document.createElement('div');
+                item.className = 'doctor-list-item';
+                item.innerHTML = `
+                    <img src="${doc.img}" class="doctor-img" alt="${doc.name}">
+                    <div class="doctor-info">
+                        <div class="doctor-title"><i class="fas fa-lightbulb"></i> ${doc.title}</div>
+                        <div class="doctor-name">${doc.name}</div>
+                        <div class="doctor-specialty">${doc.specialty}</div>
+                        <div class="doctor-actions">
+                            <button class="info-btn" onclick="window.location.href='doctor-details.html'">Info</button>
+                            <span class="rating-badge"><i class="fas fa-star"></i> ${doc.rating}</span>
+                            <i class="fas fa-calendar-alt" title="Book"></i>
+                            <i class="fas fa-question-circle" title="Help"></i>
+                            <i class="far fa-heart" title="Favorite"></i>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+        renderDoctors();
+    </script>
+</body>
+</html> 

@@ -3,143 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specialties | Medical App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Specialties</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background: #f8f9fa;
+            background: #f8fafd;
+            font-family: 'Poppins', sans-serif;
         }
-        .gradient-header {
-            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-            color: #fff;
-            border-radius: 0 0 32px 32px;
-            padding: 2rem 1rem 1.5rem 1rem;
+        .header {
+            background: linear-gradient(135deg, #1ec6d9 0%, #24e0c4 100%);
+            padding: 36px 0 24px 0;
+            border-radius: 0 0 30px 30px;
             text-align: center;
-            position: relative;
+            color: #fff;
         }
-        .icon-back {
-            position: absolute;
-            left: 1rem;
-            top: 2rem;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
         }
-        .specialties-container {
-            max-width: 500px;
-            margin: -40px auto 0 auto;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-            padding: 2rem 1.2rem 1.5rem 1.2rem;
+        .header p {
+            margin: 6px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
         .search-bar {
-            background: #eaf8fd;
-            border-radius: 12px;
-            border: none;
-            padding: 0.7rem 1rem;
-            width: 100%;
-            margin-bottom: 1.2rem;
-            font-size: 1rem;
-        }
-        .filter-row {
+            margin: 18px auto 0 auto;
+            max-width: 340px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
+            padding: 8px 18px;
         }
-        .filter-btn {
-            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-            color: #fff;
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            background: transparent;
+            margin-left: 8px;
+        }
+        .sort-filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 340px;
+            margin: 18px auto 0 auto;
+            font-size: 1rem;
+            color: #1ec6d9;
+        }
+        .sort-btn, .filter-btn {
+            background: #fff;
             border: none;
             border-radius: 18px;
-            padding: 0.3rem 1.1rem;
-            font-size: 1rem;
+            padding: 6px 18px;
+            font-weight: 600;
+            color: #1ec6d9;
+            margin-right: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(30,198,217,0.07);
         }
         .specialties-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.1rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            max-width: 340px;
+            margin: 24px auto 0 auto;
         }
         .specialty-card {
             background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
             color: #fff;
-            border-radius: 18px;
-            padding: 1.2rem 0.5rem;
+            border-radius: 15px;
+            padding: 1.5rem;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
-        .specialty-card img {
-            width: 36px;
-            height: 36px;
+        .specialty-card:hover {
+            transform: translateY(-5px);
         }
-        @media (max-width: 600px) {
-            .specialties-grid {
-                grid-template-columns: 1fr;
-            }
+        .specialty-card i {
+            font-size: 2rem;
+        }
+        .specialty-card .specialty-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .bottom-nav {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -2px 8px rgba(30,198,217,0.07);
+            z-index: 100;
+        }
+        .bottom-nav .nav-item {
+            color: #1ec6d9;
+            text-align: center;
+            font-size: 1.3rem;
+            flex: 1;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-nav .nav-item.active {
+            color: #00bcd4;
+        }
+        @media (max-width: 500px) {
+            .header h2 { font-size: 1.3rem; }
+            .specialties-grid { max-width: 98vw; }
+            .sort-filter-row, .search-bar { max-width: 98vw; }
         }
     </style>
 </head>
 <body>
-    <div class="gradient-header">
-        <img src="images/back-icon.svg" alt="Back" class="icon-back">
-        <span class="logo">ALPHAheart</span>
-        <h2 class="mb-0">Specialties</h2>
-        <div style="font-size:1rem;font-weight:400;">Find Your Doctor</div>
+    <div class="header">
+        <a href="dashboard.html" style="position:absolute;left:20px;top:30px;color:#fff;font-size:28px;text-decoration:none;">&#8592;</a>
+        <h2>Specialties</h2>
+        <p>Find Your Doctor</p>
     </div>
-    <div class="specialties-container">
-        <input type="text" class="search-bar" placeholder="Search...">
-        <div class="filter-row">
-            <span style="font-size:1rem;font-weight:600;">Sort By</span>
-            <button class="filter-btn">A → Z</button>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search...">
+    </div>
+    <div class="sort-filter-row">
+        <div>
+            Sort By <button class="sort-btn">A-Z</button>
             <button class="filter-btn">Filter</button>
-            <span style="font-size:1rem;">Doctors</span>
         </div>
-        <div class="specialties-grid">
-            <div class="specialty-card">
-                <img src="images/cardiology-icon.svg" alt="Cardiology">
-                <div>Cardiology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/dermatology-icon.svg" alt="Dermatology">
-                <div>Dermatology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/general-icon.svg" alt="General Medicine">
-                <div>General Medicine</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/gynecology-icon.svg" alt="Gynecology">
-                <div>Gynecology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/odontology-icon.svg" alt="Odontology">
-                <div>Odontology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/oncology-icon.svg" alt="Oncology">
-                <div>Oncology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/ophtamology-icon.svg" alt="Ophtamology">
-                <div>Ophtamology</div>
-            </div>
-            <div class="specialty-card">
-                <img src="images/orthopedics-icon.svg" alt="Orthopedics">
-                <div>Orthopedics</div>
-            </div>
-        </div>
+        <div style="font-weight:600;">Doctors</div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <!-- Custom Scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/routing.js"></script>
+    <div class="specialties-grid" id="specialtiesGrid">
+        <!-- Specialty cards will be injected here -->
+    </div>
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span style="display:block;font-size:11px;">Home</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-calendar-alt"></i><span style="display:block;font-size:11px;">Appointments</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-comment-alt"></i><span style="display:block;font-size:11px;">Messages</span></a>
+        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span style="display:block;font-size:11px;">Profile</span></a>
+    </nav>
+    <script>
+        // Specialties data (add more as needed)
+        const specialties = [
+            { name: 'Cardiology', icon: 'fa-heartbeat' },
+            { name: 'Dermatology', icon: 'fa-allergies' },
+            { name: 'General Medicine', icon: 'fa-user-md' },
+            { name: 'Gynecology', icon: 'fa-venus' },
+            { name: 'Odontology', icon: 'fa-tooth' },
+            { name: 'Oncology', icon: 'fa-dna' },
+            { name: 'Ophthalmology', icon: 'fa-eye' },
+            { name: 'Orthopedics', icon: 'fa-bone' }
+        ];
+        const grid = document.getElementById('specialtiesGrid');
+        function renderSpecialties(filter = '') {
+            grid.innerHTML = '';
+            specialties.filter(s => s.name.toLowerCase().includes(filter.toLowerCase())).forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'specialty-card';
+                card.innerHTML = `<i class="fas ${s.icon}"></i><div class="specialty-title">${s.name}</div>`;
+                card.onclick = () => {
+                    window.location.href = `doctors.html?specialty=${encodeURIComponent(s.name)}`;
+                };
+                grid.appendChild(card);
+            });
+        }
+        renderSpecialties();
+        document.getElementById('searchInput').addEventListener('input', function() {
+            renderSpecialties(this.value);
+        });
+    </script>
 </body>
 </html> 

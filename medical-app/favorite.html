@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #f8fafd; font-family: 'Poppins', sans-serif; }
+        .header { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); padding: 32px 0 18px 0; border-radius: 0 0 30px 30px; color: #fff; text-align: center; position: relative; }
+        .header h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+        .back-btn { position: absolute; left: 20px; top: 30px; color: #fff; font-size: 28px; text-decoration: none; }
+        .fav-section { max-width: 360px; margin: 32px auto 0 auto; background: none; padding: 0 8px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+        .tab-btn { flex: 1; border-radius: 18px; border: 2px solid #00bcd4; background: #fff; color: #00bcd4; font-weight: 600; font-size: 1rem; padding: 8px 0; cursor: pointer; transition: background 0.15s, color 0.15s; }
+        .tab-btn.active, .tab-btn:hover { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: #fff; border: none; }
+        .collapsible-section { margin-bottom: 14px; border-radius: 16px; background: #eaf7fb; }
+        .collapsible-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; color: #00bcd4; font-weight: 600; font-size: 1rem; cursor: pointer; border-radius: 16px; }
+        .collapsible-header i { margin-right: 10px; }
+        .collapsible-content { display: none; padding: 0 18px 10px 18px; }
+        .collapsible-section.open .collapsible-content { display: block; }
+        .collapsible-section.open .collapsible-header { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: #fff; }
+        .fav-card { display: flex; align-items: center; background: #fff; border-radius: 14px; margin: 10px 0; padding: 10px 14px; box-shadow: 0 2px 8px rgba(30,198,217,0.07); }
+        .fav-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: #eaf7fb; margin-right: 14px; }
+        .fav-info { flex: 1; }
+        .fav-name { font-size: 1.05rem; font-weight: 600; color: #00bcd4; }
+        .fav-specialty { font-size: 0.98rem; color: #888; }
+        .fav-remove { color: #ff5252; font-size: 1.2rem; cursor: pointer; margin-left: 10px; }
+        @media (max-width: 500px) { .header h2 { font-size: 1.3rem; } .fav-section { max-width: 98vw; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="settings.html" class="back-btn">&#8592;</a>
+        <h2>Favorite</h2>
+    </div>
+    <div class="fav-section">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('doctors')">Doctors</button>
+            <button class="tab-btn" onclick="showTab('services')">Services</button>
+        </div>
+        <div id="doctorsTab">
+            <div class="collapsible-section open">
+                <div class="collapsible-header" onclick="toggleCollapse(this)"><i class="fas fa-heartbeat"></i>Cardiology <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="fav-card">
+                        <img src="images/doctor1.jpg" class="fav-img" alt="Dr. John Smith">
+                        <div class="fav-info">
+                            <div class="fav-name">Dr. John Smith</div>
+                            <div class="fav-specialty">Cardiologist</div>
+                        </div>
+                        <i class="fas fa-trash fav-remove" title="Remove"></i>
+                    </div>
+                    <div class="fav-card">
+                        <img src="images/doctor2.jpg" class="fav-img" alt="Dr. Emily Carter">
+                        <div class="fav-info">
+                            <div class="fav-name">Dr. Emily Carter</div>
+                            <div class="fav-specialty">Cardiologist</div>
+                        </div>
+                        <i class="fas fa-trash fav-remove" title="Remove"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="toggleCollapse(this)"><i class="fas fa-allergies"></i>Dermatology <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="fav-card">
+                        <img src="images/doctor3.jpg" class="fav-img" alt="Dr. Sarah Lee">
+                        <div class="fav-info">
+                            <div class="fav-name">Dr. Sarah Lee</div>
+                            <div class="fav-specialty">Dermatologist</div>
+                        </div>
+                        <i class="fas fa-trash fav-remove" title="Remove"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="servicesTab" style="display:none;">
+            <div class="collapsible-section open">
+                <div class="collapsible-header" onclick="toggleCollapse(this)"><i class="fas fa-tooth"></i>Dental <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="fav-card">
+                        <img src="images/service1.jpg" class="fav-img" alt="Teeth Cleaning">
+                        <div class="fav-info">
+                            <div class="fav-name">Teeth Cleaning</div>
+                            <div class="fav-specialty">Dental Service</div>
+                        </div>
+                        <i class="fas fa-trash fav-remove" title="Remove"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showTab(tab) {
+            document.getElementById('doctorsTab').style.display = tab === 'doctors' ? '' : 'none';
+            document.getElementById('servicesTab').style.display = tab === 'services' ? '' : 'none';
+            document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', (tab === 'doctors' && idx === 0) || (tab === 'services' && idx === 1));
+            });
+        }
+        function toggleCollapse(el) {
+            const section = el.closest('.collapsible-section');
+            section.classList.toggle('open');
+        }
+    </script>
+</body>
+</html> 
